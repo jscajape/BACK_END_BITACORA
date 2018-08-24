@@ -1,0 +1,28 @@
+{
+  "name": "back_end_bitacora",
+  "version": "1.0.0",
+  "description": "BACK_END_BITACORA",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jscajape/BACK_END_BITACORA.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jscajape/BACK_END_BITACORA/issues"
+  },
+  "homepage": "https://github.com/jscajape/BACK_END_BITACORA#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "jwt-simple": "^0.5.1",
+    "moment": "^2.22.2",
+    "mongoose": "^5.2.9",
+    "morgan": "^1.9.0",
+    "nodemailer": "^4.6.8"
+  }
+}

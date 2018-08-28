@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const Medio = new Schema({
+const Perfil = new Schema({
     codigo:{
         type:Number,
         required: 'Es necesario el código'
@@ -9,7 +9,12 @@ const Medio = new Schema({
     descripcion: {
         type: String,
         required:'Es necesaria la descripción'
+    },
+    estado: {
+        type: String,
+        required:'Es necesaria la descripción',
+        maxlength:[3,"Solo Permitido 3 caracteres"]
     }
 });
 
-module.exports = mongoose.model('Medio', Medio,'Medio');
+module.exports = mongoose.model('Perfil', Perfil,'Perfil');

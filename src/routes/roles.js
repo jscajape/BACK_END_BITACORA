@@ -2,55 +2,55 @@ const express = require('express');
 const router = express.Router();
 var middleware = require('../middleware');
 
-const Medio = require('../models/medioModel');
+const Rol = require('../models/rolModel');
 
 router.get('/',middleware.ensureAuthenticated, async (req, res) =>{
-    const medios = await Medio.find();
-    res.json(medios);
+    const roles = await Rol.find();
+    res.json(roles);
 });
 
 router.get('/:codigo',middleware.ensureAuthenticated, async (req, res) =>{
     let codigo = req.params.codigo
-    await Medio.findOne( {codigo:codigo}, (err, medio) => {
+    await Rol.findOne( {codigo:codigo}, (err, rol) => {
         if(err) return res.status(500).send({ message: 'error al realizar la petición'})
-        if(!medio) return res.status(404).send({ mesagge :' el medio no existe'})
+        if(!rol) return res.status(404).send({ mesagge :' el rol no existe'})
 
-        res.json(medio)
+        res.json(rol)
     })
 });
 
 router.put('/',middleware.ensureAuthenticated, async (req, res) => {
     
-    const medios = await Medio.find(); 
+    const roles = await Rol.find(); 
     var num = 0;
-    if(medios.length > 0)
+    if(roles.length > 0)
     {
-        if(medios[medios.length-1])
-             num = medios[medios.length-1].codigo
+        if(roles[roles.length-1])
+             num = roles[roles.length-1].codigo
     }
-    const medio = new Medio(req.body);
-    medio.codigo=num+1
+    const rol = new Rol(req.body);
+    rol.codigo=num+1
 
-    await medio.save();
+    await rol.save();
     res.json({
-        status: 'Medio Guardado'
+        status: 'Rol Guardado'
     });
 });
 
 router.post('/',middleware.ensureAuthenticated, async (req, res) => {
-    let medio = await Medio.findOne({codigo:req.body.codigo})
-    Object.assign(medio, req.body)
-    await medio.save()
+    let rol = await Rol.findOne({codigo:req.body.codigo})
+    Object.assign(rol, req.body)
+    await rol.save()
     res.json({
-        status: 'Medio Actualizado'
+        status: 'Rol Actualizado'
     });
 });
 
 router.delete('/',middleware.ensureAuthenticated, async (req, res) => {
     console.log(req.query);
-   await Medio.findByIdAndRemove(req.query);
+   await Rol.findByIdAndRemove(req.query);
    res.json({
-    status:'Medio Eliminado'
+    status:'Rol Eliminado'
    });
 });
 

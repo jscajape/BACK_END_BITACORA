@@ -6,9 +6,9 @@ const Usuario = new Schema({
         type:Number,
         required: 'Es necesario el código'
     },
-    cliente: {
-        type: String,
-        required:'Es necesaria la identificación del cliente',    
+    rescatista: {
+        type: Number,
+        required:'Es necesaria el codigo del rescatista',    
     },
     nombreUsuario: {
         type: String,
@@ -18,8 +18,19 @@ const Usuario = new Schema({
         type: String,
         required:'Es necesario un password'
     },
-    perfil: String,
-    estado: Number
+    correo: {//Se especifica el atributo correo que será una cadena y deberá corresponder con el formato para una dirección de correo electrónico valida
+        type: String,
+        match: /.+\@.+\..+/
+    },
+    perfil: Number,
+    estado: {
+        type: String,
+        required:'Es necesaria la descripción',
+        maxlength:[3,"Solo Permitido 3 caracteres"]
+    },
+    ultimoAcceso: {
+        type: Date
+    }
     
 });
 

@@ -5,7 +5,7 @@ var service = require('./services');//Se declara la variable service que permite
 var middleware = require('./middleware');//Permite incluir el archivo donde se definió el middleware
 
 const app = express();//Se crea una aplicación de Express
-mongoose.connect('mongodb://localhost/Back_end')//Permite conectar a la base de datos local denominada Back_end
+mongoose.connect('mongodb://localhost/Bitacora')//Permite conectar a la base de datos local denominada Back_end
 .then(db => console.log('BD está conectada'))
 .catch(err => console.error(err));
 
@@ -23,15 +23,13 @@ app.use(function(req, res, next) {//Permite habilitar CORS(cross-origin resource
 });
 
 //Rutas
-app.use('/clientes', require('./routes/clientes'))
+app.use('/rescatistas', require('./routes/rescatistas'))
 app.use('/usuarios', require('./routes/usuarios'))
-app.use('/notificacionUsuarios', require('./routes/notificacionUsuarios'))
-app.use('/parametroConfigs', require('./routes/parametroConfigs'))
-app.use('/lecturas', require('./routes/lecturas'))
-app.use('/equipos', require('./routes/equipos'))
-app.use('/tipoNotificaciones', require('./routes/tipoNotificaciones'))
-app.use('/medios', require('./routes/medios'))
-app.use('/notificaciones', require('./routes/notificaciones'))
+app.use('/misiones', require('./routes/misiones'))
+app.use('/operaciones', require('./routes/operaciones'))
+app.use('/perfiles', require('./routes/perfiles'))
+app.use('/registros', require('./routes/registros'))
+app.use('/roles', require('./routes/roles'))
 app.use('/login', require('./routes/login'))
 
 // Permite incluir el servicio de archivos estáticos

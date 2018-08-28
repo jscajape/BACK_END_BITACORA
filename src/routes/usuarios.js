@@ -19,7 +19,7 @@ router.get('/:cliente',middleware.ensureAuthenticated, async (req, res) =>{
     })
 });
 
-router.put('/',middleware.ensureAuthenticated, async (req, res) => {
+router.put('/', middleware.ensureAuthenticated, async (req, res) => {
     
     const usuarios = await Usuario.find(); 
     var num = 0;

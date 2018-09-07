@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/jscajape/BACK_END_BITACORA#readme",
   "dependencies": {
+    "busboy-body-parser": "^0.3.2",
     "express": "^4.16.3",
+    "gridfs-stream": "^1.1.1",
     "jwt-simple": "^0.5.1",
     "moment": "^2.22.2",
     "mongoose": "^5.2.9",

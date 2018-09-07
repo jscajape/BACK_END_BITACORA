@@ -3,6 +3,8 @@ const morgan = require('morgan');//Permite incluir el módulo morgan (middleware
 const mongoose = require('mongoose')//Permite incluir el módulo mongoose (modelamiento de objetos para MongoDB) en el código para que pueda ser usado
 var service = require('./services');//Se declara la variable service que permite incluir el módulo services a fin de que pueda ser usado en el código 
 var middleware = require('./middleware');//Permite incluir el archivo donde se definió el middleware
+busboyBodyParser = require('busboy-body-parser');
+
 
 const app = express();//Se crea una aplicación de Express
 mongoose.connect('mongodb://localhost/Bitacora')//Permite conectar a la base de datos local denominada Back_end
@@ -22,6 +24,8 @@ app.use(function(req, res, next) {//Permite habilitar CORS(cross-origin resource
     next();
 });
 
+app.use(busboyBodyParser({ limit: '10mb' }));
+
 //Rutas
 app.use('/rescatistas', require('./routes/rescatistas'))
 app.use('/usuarios', require('./routes/usuarios'))
@@ -31,6 +35,7 @@ app.use('/perfiles', require('./routes/perfiles'))
 app.use('/registros', require('./routes/registros'))
 app.use('/roles', require('./routes/roles'))
 app.use('/login', require('./routes/login'))
+app.use('/archivos', require('./routes/uploadDownload'))
 
 // Permite incluir el servicio de archivos estáticos
 app.use(express.static(__dirname + '/public'))

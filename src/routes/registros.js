@@ -30,7 +30,7 @@ router.put('/',middleware.ensureAuthenticated, async (req, res) => {
     }
     const registro = new Registro(req.body);
     registro.codigo=num+1
-
+    registro.fecha = new Date();
     await registro.save();
     res.json({
         status: 'Registro Guardado'

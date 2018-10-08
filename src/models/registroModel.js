@@ -17,6 +17,14 @@ const Registro = new Schema({
         type:Number,
         required: 'Es necesario el código'
     },
+    remisor:
+    {
+        type: String   
+    },
+    tipo:
+    {
+        type:Number //1: chat Interno, 2: geo, 3: reporte hacia pmando
+    },
     contenido: {
         type: Object
     }

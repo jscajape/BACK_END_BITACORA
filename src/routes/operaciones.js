@@ -9,9 +9,19 @@ router.get('/',middleware.ensureAuthenticated, async (req, res) =>{
     res.json(operaciones);
 });
 
-router.get('/:codigo',middleware.ensureAuthenticated, async (req, res) =>{
+router.get('/mision/:codigo',middleware.ensureAuthenticated, async (req, res) =>{
     let codigo = req.params.codigo
-    await Operacion.findOne( {codigo:codigo}, (err, operacion) => {
+    await Operacion.find( {mision:codigo}, (err, operacion) => {
+        if(err) return res.status(500).send({ message: 'error al realizar la petición'})
+        if(!operacion) return res.status(404).send({ mesagge :' el operacion no existe'})
+
+        res.json(operacion)
+    })
+});
+
+router.get('/usuario/:codigo',middleware.ensureAuthenticated, async (req, res) =>{
+    let codigo = req.params.codigo
+    await Operacion.find( {usuario:codigo}, (err, operacion) => {
         if(err) return res.status(500).send({ message: 'error al realizar la petición'})
         if(!operacion) return res.status(404).send({ mesagge :' el operacion no existe'})
 

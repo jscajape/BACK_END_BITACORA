@@ -3,19 +3,34 @@ const router = express.Router();
 var middleware = require('../middleware');
 
 const Usuario = require('../models/usuarioModel');
+const Rescatista = require('../models/rescatistaModel');
 
 router.get('/',middleware.ensureAuthenticated, async (req, res) =>{
     const usuarios = await Usuario.find();
     res.json(usuarios);
 });
 
-router.get('/:cliente',middleware.ensureAuthenticated, async (req, res) =>{
-    let cli = req.params.cliente
-    await Usuario.findOne( {cliente:cli}, (err, usuario) => {
+router.get('/:usuario',middleware.ensureAuthenticated, async (req, res) =>{
+    let usu = req.params.usuario
+    await Usuario.findOne( {codigo:usu}, async (err, usuario) => {
         if(err) return res.status(500).send({ message: 'error al realizar la petición'})
         if(!usuario) return res.status(404).send({ mesagge :' el usuario no existe'})
 
         res.json(usuario)
+    })
+});
+
+router.get('/rescatista/:usuario',middleware.ensureAuthenticated, async (req, res) =>{
+    let usu = req.params.usuario
+    await Usuario.findOne( {codigo:usu}, async (err, usuario) => {
+        if(err) return res.status(500).send({ message: 'error al realizar la petición'})
+        if(!usuario) return res.status(404).send({ mesagge :' el usuario no existe'})
+
+        await Rescatista.findOne( {codigo:usuario.rescatista}, (err, rescatista) => {
+            if(err) return res.status(500).send({ message: 'error al realizar la petición'})
+            if(!rescatista) return res.status(404).send({ mesagge :' el rescatista no existe'})
+            res.json(rescatista)
+        })
     })
 });
 

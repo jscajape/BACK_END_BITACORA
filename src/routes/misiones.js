@@ -30,10 +30,11 @@ router.put('/',middleware.ensureAuthenticated, async (req, res) => {
     }
     const mision = new Mision(req.body);
     mision.codigo=num+1
+    mision.fechaInicio=new Date()
 
     await mision.save();
     res.json({
-        status: 'Mision Guardado'
+        status: 'Mision creada exitosamente'
     });
 });
 
@@ -46,11 +47,11 @@ router.post('/',middleware.ensureAuthenticated, async (req, res) => {
     });
 });
 
-router.delete('/',middleware.ensureAuthenticated, async (req, res) => {
-    console.log(req.query);
-   await Mision.findByIdAndRemove(req.query);
+router.delete('/:id',middleware.ensureAuthenticated, async (req, res) => {
+  
+   await Mision.findByIdAndRemove(req.params.id);
    res.json({
-    status:'Mision Eliminado'
+    status:'Mision eliminada'
    });
 });
 

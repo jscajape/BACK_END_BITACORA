@@ -9,7 +9,7 @@ busboyBodyParser = require('busboy-body-parser');
 const app = express();//Se crea una aplicación de Express
 
 
-mongoose.connect('mongodb://root:fQf6zgnDKvDD@localhost/Bitacora',{
+mongoose.connect('mongodb://localhost/Bitacora',{
     "user": "root",
     "pass": "fQf6zgnDKvDD",
     "useMongoClient": true

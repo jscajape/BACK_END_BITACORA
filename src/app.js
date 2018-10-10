@@ -12,7 +12,7 @@ mongoose.connect('mongodb://root:fQf6zgnDKvDD@localhost:27017/Bitacora')//Permit
     .then(db => console.log('BD está conectada'))
     .catch(err => console.error(err));
 */
-mongoose.connect('mongodb://host:localhost/Bitacora', {
+mongoose.connect('mongodb://host:0.0.0.0/Bitacora', {
         user: 'root',
         pass: 'fQf6zgnDKvDD',
       }).then(db => console.log('BD está conectada'))

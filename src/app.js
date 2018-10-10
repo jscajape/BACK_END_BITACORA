@@ -15,7 +15,7 @@ mongoose.connect('mongodb://root:fQf6zgnDKvDD@localhost/Bitacora')//Permite cone
 
 //------------------------------------------
 
-app.set('port', process.env.PORT || 3000);//Se define el puerto port para la aplicación. Se usa el valor de process.env.PORT en el caso que haya sido configurado o en su defecto el puerto 3000
+app.set('port', 6000);//Se define el puerto port para la aplicación. Se usa el valor de process.env.PORT en el caso que haya sido configurado o en su defecto el puerto 3000
 
 //middlewares
 app.use(morgan('dev'));//Establece el formato predefinido llamado dev para las cadenas de caracteres

@@ -11,7 +11,8 @@ const Mision = new Schema({
 		required:'Es necesario la descripción'
     },
     fechaInicio: {
-        type: Date
+        type: Date,
+        default: new Date()
     },
     observacionInicial: {
         type: String

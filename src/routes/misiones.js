@@ -30,7 +30,6 @@ router.put('/',middleware.ensureAuthenticated, async (req, res) => {
     }
     const mision = new Mision(req.body);
     mision.codigo=num+1
-    mision.fechaInicio=new Date()
 
     await mision.save();
     res.json({

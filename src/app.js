@@ -8,20 +8,14 @@ busboyBodyParser = require('busboy-body-parser');
 
 const app = express();//Se crea una aplicación de Express
 
-
-
-mongoose.connect('mongodb://localhost:27017/Bitacora',{
-    "user": "root",
-    "pass": "fQf6zgnDKvDD",
-    "useMongoClient": true
-})                      //Permite conectar a la base de datos local denominada Back_end
+mongoose.connect('mongodb://root:fQf6zgnDKvDD@hostlocalhost:27017/Bitacora')//Permite conectar a la base de datos local denominada Back_end
     .then(db => console.log('BD está conectada'))
     .catch(err => console.error(err));
 
 
 //------------------------------------------
 
-app.set('port', 6000);//Se define el puerto port para la aplicación. Se usa el valor de process.env.PORT en el caso que haya sido configurado o en su defecto el puerto 3000
+app.set('port', process.env.PORT || 3000);//Se define el puerto port para la aplicación. Se usa el valor de process.env.PORT en el caso que haya sido configurado o en su defecto el puerto 3000
 
 //middlewares
 app.use(morgan('dev'));//Establece el formato predefinido llamado dev para las cadenas de caracteres

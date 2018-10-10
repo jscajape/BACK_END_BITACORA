@@ -8,7 +8,7 @@ busboyBodyParser = require('busboy-body-parser');
 
 const app = express();//Se crea una aplicación de Express
 
-mongoose.connect('mongodb://root:fQf6zgnDKvDD@hostlocalhost:27017/Bitacora')//Permite conectar a la base de datos local denominada Back_end
+mongoose.connect('mongodb://root:fQf6zgnDKvDD@localhost:27017/Bitacora')//Permite conectar a la base de datos local denominada Back_end
     .then(db => console.log('BD está conectada'))
     .catch(err => console.error(err));
 

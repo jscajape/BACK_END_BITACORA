@@ -3,43 +3,65 @@ const router = express.Router();
 var middleware = require('../middleware');
 
 const Operacion = require('../models/operacionModel');
+const Usuario = require('../models/usuarioModel');
+const Rescatista = require('../models/rescatistaModel');
+const Mision = require('../models/misionModel');
 
-router.get('/',middleware.ensureAuthenticated, async (req, res) =>{
+router.get('/', middleware.ensureAuthenticated, async (req, res) => {
     const operaciones = await Operacion.find();
     res.json(operaciones);
 });
 
-router.get('/mision/:codigo',middleware.ensureAuthenticated, async (req, res) =>{
+router.get('/mision/:codigo', middleware.ensureAuthenticated, async (req, res) => {
     let codigo = req.params.codigo
-    await Operacion.find( {mision:codigo}, (err, operacion) => {
-        if(err) return res.status(500).send({ message: 'error al realizar la petición'})
-        if(!operacion) return res.status(404).send({ mesagge :' el operacion no existe'})
+    rescatistas = [];
+    await Operacion.find({ mision: codigo }, (err, operacion) => {
 
-        res.json(operacion)
+        if (err) return res.status(500).send({ message: 'error al realizar la petición' })
+        if (!operacion) return res.status(404).send({ mesagge: ' el operacion no existe' })
+
+        operacion.forEach(function (item) {
+            Usuario.findOne({ codigo: item.usuario }, async function (err, us) {
+                Rescatista.findOne({ codigo: us.rescatista }, (err, rescatista) => {
+                    rescatistas.push(rescatista);
+                    if (rescatistas.length === operacion.length) {
+                        res.json(rescatistas);
+                    }
+                });
+            })
+            
+        });
     })
 });
 
-router.get('/usuario/:codigo',middleware.ensureAuthenticated, async (req, res) =>{
+router.get('/usuario/:codigo', middleware.ensureAuthenticated, async (req, res) => {
     let codigo = req.params.codigo
-    await Operacion.find( {usuario:codigo}, (err, operacion) => {
-        if(err) return res.status(500).send({ message: 'error al realizar la petición'})
-        if(!operacion) return res.status(404).send({ mesagge :' el operacion no existe'})
-
-        res.json(operacion)
+    misiones = []
+    await Operacion.find({ usuario: codigo }, (err, operacion) => {
+        if (err) return res.status(500).send({ message: 'error al realizar la petición' })
+        if (!operacion) return res.status(404).send({ mesagge: ' el operacion no existe' })
+        
+        operacion.forEach(function (item) {
+            Mision.findOne( {codigo:item.usuario}, (err, mision) => {
+                misiones.push(mision);
+                    if (misiones.length === operacion.length) {
+                        res.json(misiones);
+                    }
+            })
+        });
     })
 });
 
-router.put('/',middleware.ensureAuthenticated, async (req, res) => {
-    
-    const operaciones = await Operacion.find(); 
+router.put('/', middleware.ensureAuthenticated, async (req, res) => {
+
+    const operaciones = await Operacion.find();
     var num = 0;
-    if(operaciones.length > 0)
-    {
-        if(operaciones[operaciones.length-1])
-             num = operaciones[operaciones.length-1].codigo
+    if (operaciones.length > 0) {
+        if (operaciones[operaciones.length - 1])
+            num = operaciones[operaciones.length - 1].codigo
     }
     const operacion = new Operacion(req.body);
-    operacion.codigo=num+1
+    operacion.codigo = num + 1
 
     await operacion.save();
     res.json({
@@ -47,8 +69,8 @@ router.put('/',middleware.ensureAuthenticated, async (req, res) => {
     });
 });
 
-router.post('/',middleware.ensureAuthenticated, async (req, res) => {
-    let operacion = await Operacion.findOne({codigo:req.body.codigo})
+router.post('/', middleware.ensureAuthenticated, async (req, res) => {
+    let operacion = await Operacion.findOne({ codigo: req.body.codigo })
     Object.assign(operacion, req.body)
     await operacion.save()
     res.json({
@@ -56,12 +78,12 @@ router.post('/',middleware.ensureAuthenticated, async (req, res) => {
     });
 });
 
-router.delete('/',middleware.ensureAuthenticated, async (req, res) => {
+router.delete('/', middleware.ensureAuthenticated, async (req, res) => {
     console.log(req.query);
-   await Operacion.findByIdAndRemove(req.query);
-   res.json({
-    status:'Operacion Eliminado'
-   });
+    await Operacion.findByIdAndRemove(req.query);
+    res.json({
+        status: 'Operacion Eliminado'
+    });
 });
 
 module.exports = router;

@@ -12,11 +12,9 @@ mongoose.connect('mongodb://root:fQf6zgnDKvDD@localhost:27017/Bitacora')//Permit
     .then(db => console.log('BD está conectada'))
     .catch(err => console.error(err));
 */
-mongoose.connect('mongodb://host:localhost/Bitacora', {
-        user: 'root',
-        pass: 'fQf6zgnDKvDD',
-      }).then(db => console.log('BD está conectada'))
-      .catch(err => console.error(err));
+mongoose.connect('mongodb://host:localhost/Bitacora')
+        .then(db => console.log('BD está conectada'))
+        .catch(err => console.error(err));
 //------------------------------------------
 
 app.set('port',  3000);//Se define el puerto port para la aplicación. Se usa el valor de process.env.PORT en el caso que haya sido configurado o en su defecto el puerto 3000

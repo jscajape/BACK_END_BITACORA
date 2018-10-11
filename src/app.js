@@ -13,7 +13,7 @@ mongoose.connect('mongodb://root:fQf6zgnDKvDD@localhost:27017/Bitacora')//Permit
     .catch(err => console.error(err));
 */
 
-mongoose.connect('mongodb://host:localhost/Bitacora', { useNewUrlParser: true })
+mongoose.connect('mongodb://localhost/Bitacora', { useNewUrlParser: true })
         .then(db => console.log('BD está conectada'))
         .catch(err => console.error(err));
 

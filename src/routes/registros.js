@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
     
 });
 
-var port = 6001;
+var port = 3001;
 
 http.listen(port, function () {
     console.log('listening in http://localhost:' + port);

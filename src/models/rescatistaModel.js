@@ -33,14 +33,12 @@ const Rescatista = new Schema({ //Se define el Schema para la entidad Rescatista
     telefono: String,//Se especifica el atributo teléfono que será una cadena
     movil: {//Se especifica el atributo móvil que será una cadena y es obligatorio
         type: String,
-        required:'Es necesario el número del móvil'
     },
     rango: {
         type: String
     },
     genero: {
         type: String,
-        maxlength:[3,"Solo Permitido 3 caracteres"]
     },
     estado: {
         type: String,

@@ -6,10 +6,6 @@ const Rescatista = new Schema({ //Se define el Schema para la entidad Rescatista
         type:Number,
         required: 'Es necesario el código'
     },
-    rol:{   //Se especifica el código del rol al que pertenece el rescatista
-        type:Number,
-        required: 'Es necesario el código'
-    },
     ci: { //Se especifica el atributo identificación que será una cadena, obligatorio y menor igual a 13 caracteres
         type: String,
         required:'Es necesario el número del documento',
@@ -31,13 +27,16 @@ const Rescatista = new Schema({ //Se define el Schema para la entidad Rescatista
         required:'Es necesario la dirección'
     },
     telefono: String,//Se especifica el atributo teléfono que será una cadena
-    movil: {//Se especifica el atributo móvil que será una cadena y es obligatorio
+    email: {//Se especifica el atributo móvil que será una cadena y es obligatorio
         type: String,
     },
-    rango: {
+    tipoSangre: {
         type: String
     },
     genero: {
+        type: String,
+    },
+    estatura: {
         type: String,
     },
     estado: {

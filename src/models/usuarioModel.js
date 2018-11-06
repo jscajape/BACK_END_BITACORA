@@ -7,7 +7,7 @@ const Usuario = new Schema({
         required: 'Es necesario el código'
     },
     rescatista: {
-        type: Number,
+        type: String,
         required:'Es necesaria el codigo del rescatista',    
     },
     nombreUsuario: {

@@ -46,9 +46,9 @@ router.post('/',middleware.ensureAuthenticated, async (req, res) => {
     });
 });
 
-router.delete('/',middleware.ensureAuthenticated, async (req, res) => {
-    console.log(req.query);
-   await Rescatista.findByIdAndRemove(req.query);
+router.delete('/:id',middleware.ensureAuthenticated, async (req, res) => {
+    let id = req.params.id
+    await Rescatista.findByIdAndRemove(id);
    res.json({
     status:'Rescatista Eliminado'
    });

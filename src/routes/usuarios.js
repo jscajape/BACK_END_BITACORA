@@ -26,7 +26,7 @@ router.get('/rescatista/:usuario',middleware.ensureAuthenticated, async (req, re
         if(err) return res.status(500).send({ message: 'error al realizar la petición'})
         if(!usuario) return res.status(404).send({ mesagge :' el usuario no existe'})
 
-        await Rescatista.findOne( {codigo:usuario.rescatista}, (err, rescatista) => {
+        await Rescatista.findOne( {ci:usuario.rescatista}, (err, rescatista) => {
             if(err) return res.status(500).send({ message: 'error al realizar la petición'})
             if(!rescatista) return res.status(404).send({ mesagge :' el rescatista no existe'})
             res.json(rescatista)
@@ -34,6 +34,15 @@ router.get('/rescatista/:usuario',middleware.ensureAuthenticated, async (req, re
     })
 });
 
+router.get('/usuario/:rescatista',middleware.ensureAuthenticated, async (req, res) =>{
+    let crescatista = req.params.rescatista
+    await Usuario.findOne( {rescatista:crescatista}, async (err, usuario) => {
+        if(err) return res.status(500).send({ message: 'error al realizar la petición'})
+        if(!usuario) return res.status(404).send({ mesagge :'El usuario no existe'})
+        res.json(usuario)
+       
+    })
+});
 router.put('/', middleware.ensureAuthenticated, async (req, res) => {
     
     const usuarios = await Usuario.find(); 

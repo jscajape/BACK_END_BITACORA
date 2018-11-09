@@ -12,8 +12,8 @@ router.get('/',middleware.ensureAuthenticated, async (req, res) =>{
 router.get('/:codigo',middleware.ensureAuthenticated, async (req, res) =>{
     let codigo = req.params.codigo
     await Rescatista.findOne( {codigo:codigo}, (err, rescatista) => {
-        if(err) return res.status(500).send({ message: 'error al realizar la petición'})
-        if(!rescatista) return res.status(404).send({ mesagge :' el rescatista no existe'})
+        if(err) return res.status(500).send({ message: 'Error al realizar la petición'})
+        if(!rescatista) return res.status(404).send({ mesagge :'El rescatista no existe'})
 
         res.json(rescatista)
     })

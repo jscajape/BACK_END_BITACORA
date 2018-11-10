@@ -68,7 +68,7 @@ router.post('/', middleware.ensureAuthenticated, async (req, res) => {
 });
 
 router.delete('/:mis', middleware.ensureAuthenticated, async (req, res) => {
-
+    let mis = req.params.mis
     Operacion.remove({ mision: mis }, () => {
         res.json({
             status: 'Operacion Eliminada'

@@ -14,19 +14,13 @@ router.get('/', middleware.ensureAuthenticated, async (req, res) => {
 
 router.get('/mision/:codigo', middleware.ensureAuthenticated, async (req, res) => {
     let codigo = req.params.codigo
-    rescatistas = [];
-    Operacion.find({ mision: codigo }, (err, operacion) => {
-        console.log(operacion)
+    await Operacion.find({ mision: codigo }, (err, operacion) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!operacion) return res.status(404).send({ mesagge: ' el operacion no existe' })
-
-        operacion.forEach((item) =>{
-            Rescatista.findOne({ codigo: item.rescatista }, (err, rescatista) => {
-                rescatistas.push(rescatista);
-                    res.json(rescatistas);
-                
-            });
-            
+        var misiones= operacion.map(x => x.rescatista);
+        console.log(misiones)
+        Rescatista.find( {codigo: { $in: misiones}}, (err, res) => {
+            res.json(res);
         });
     })
 });

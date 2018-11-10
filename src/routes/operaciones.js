@@ -17,9 +17,8 @@ router.get('/mision/:codigo', middleware.ensureAuthenticated, async (req, res) =
     await Operacion.find({ mision: codigo }, (err, operacion) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!operacion) return res.status(404).send({ mesagge: ' el operacion no existe' })
-        var misiones= operacion.map(x => x.rescatista);
-        console.log(misiones)
-        Rescatista.find( {codigo: { $in: misiones}}, (err, resc) => {
+        var misiones = operacion.map(x => x.rescatista);
+        Rescatista.find({ codigo: { $in: misiones } }, (err, resc) => {
             res.json(resc);
         });
     })
@@ -31,15 +30,11 @@ router.get('/rescatista/:codigo', middleware.ensureAuthenticated, async (req, re
     await Operacion.find({ rescatista: codigo }, (err, operacion) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!operacion) return res.status(404).send({ mesagge: ' el operacion no existe' })
-        
-        operacion.forEach(function (item) {
-            Mision.findOne( {codigo:item.mision}, (err, mision) => {
-                misiones.push(mision);
-                    if (misiones.length === operacion.length) {
-                        res.json(misiones);
-                    }
-            })
+        var misiones = operacion.map(x => x.mision);
+        Mision.find({ codigo: { $in: misiones } }, (err, resc) => {
+            res.json(resc);
         });
+
     })
 });
 
@@ -53,11 +48,14 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
     }
     const operacion = new Operacion(req.body);
     operacion.codigo = num + 1
+    Operacion.remove({ mision: operacion.mision }, () => {
+        operacion.save(() => {
+            res.json({
+                status: 'Operacion Guardada'
+            });
+        });
 
-    await operacion.save();
-    res.json({
-        status: 'Operacion Guardado'
-    });
+    })
 });
 
 router.post('/', middleware.ensureAuthenticated, async (req, res) => {
@@ -70,7 +68,7 @@ router.post('/', middleware.ensureAuthenticated, async (req, res) => {
 });
 
 router.delete('/:mision', middleware.ensureAuthenticated, async (req, res) => {
-   
+
     await Operacion.findByIdAndRemove(req.params.mision);
     res.json({
         status: 'Operacion Eliminado'

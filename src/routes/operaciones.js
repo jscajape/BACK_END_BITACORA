@@ -15,20 +15,17 @@ router.get('/', middleware.ensureAuthenticated, async (req, res) => {
 router.get('/mision/:codigo', middleware.ensureAuthenticated, async (req, res) => {
     let codigo = req.params.codigo
     rescatistas = [];
-    await Operacion.find({ mision: codigo }, (err, operacion) => {
+    Operacion.find({ mision: codigo }, (err, operacion) => {
 
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!operacion) return res.status(404).send({ mesagge: ' el operacion no existe' })
 
         operacion.forEach(function (item) {
-            Usuario.findOne({ codigo: item.usuario }, async function (err, us) {
-                Rescatista.findOne({ codigo: us.rescatista }, (err, rescatista) => {
-                    rescatistas.push(rescatista);
-                    if (rescatistas.length === operacion.length) {
-                        res.json(rescatistas);
-                    }
-                });
-            })
+            Rescatista.findOne({ codigo: item.rescatista }, (err, rescatista) => {
+                rescatistas.push(rescatista);
+                    res.json(rescatistas);
+                
+            });
             
         });
     })

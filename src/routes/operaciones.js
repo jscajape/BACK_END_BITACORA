@@ -16,11 +16,11 @@ router.get('/mision/:codigo', middleware.ensureAuthenticated, async (req, res) =
     let codigo = req.params.codigo
     rescatistas = [];
     Operacion.find({ mision: codigo }, (err, operacion) => {
-
+        console.log(operacion)
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!operacion) return res.status(404).send({ mesagge: ' el operacion no existe' })
 
-        operacion.forEach(function (item) {
+        operacion.forEach((item) =>{
             Rescatista.findOne({ codigo: item.rescatista }, (err, rescatista) => {
                 rescatistas.push(rescatista);
                     res.json(rescatistas);

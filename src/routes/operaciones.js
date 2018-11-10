@@ -69,10 +69,11 @@ router.post('/', middleware.ensureAuthenticated, async (req, res) => {
 
 router.delete('/:mision', middleware.ensureAuthenticated, async (req, res) => {
 
-    await Operacion.findByIdAndRemove(req.params.mision);
-    res.json({
-        status: 'Operacion Eliminado'
-    });
+    Operacion.remove({ mision: operacion.mision }, () => {
+        res.json({
+            status: 'Operacion Eliminada'
+        });
+    }) 
 });
 
 module.exports = router;

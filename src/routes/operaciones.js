@@ -48,14 +48,11 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
     }
     const operacion = new Operacion(req.body);
     operacion.codigo = num + 1
-    Operacion.remove({ mision: operacion.mision }, () => {
-        operacion.save(() => {
-            res.json({
-                status: 'Operacion Guardada'
-            });
+    operacion.save(() => {
+        res.json({
+            status: 'Operacion Guardada'
         });
-
-    })
+    });
 });
 
 router.post('/', middleware.ensureAuthenticated, async (req, res) => {

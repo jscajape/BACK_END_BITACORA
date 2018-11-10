@@ -34,15 +34,15 @@ router.get('/mision/:codigo', middleware.ensureAuthenticated, async (req, res) =
     })
 });
 
-router.get('/usuario/:codigo', middleware.ensureAuthenticated, async (req, res) => {
+router.get('/rescatista/:codigo', middleware.ensureAuthenticated, async (req, res) => {
     let codigo = req.params.codigo
     misiones = []
-    await Operacion.find({ usuario: codigo }, (err, operacion) => {
+    await Operacion.find({ rescatista: codigo }, (err, operacion) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!operacion) return res.status(404).send({ mesagge: ' el operacion no existe' })
         
         operacion.forEach(function (item) {
-            Mision.findOne( {codigo:item.usuario}, (err, mision) => {
+            Mision.findOne( {codigo:item.mision}, (err, mision) => {
                 misiones.push(mision);
                     if (misiones.length === operacion.length) {
                         res.json(misiones);
@@ -78,9 +78,9 @@ router.post('/', middleware.ensureAuthenticated, async (req, res) => {
     });
 });
 
-router.delete('/', middleware.ensureAuthenticated, async (req, res) => {
-    console.log(req.query);
-    await Operacion.findByIdAndRemove(req.query);
+router.delete('/:mision', middleware.ensureAuthenticated, async (req, res) => {
+   
+    await Operacion.findByIdAndRemove(req.params.mision);
     res.json({
         status: 'Operacion Eliminado'
     });

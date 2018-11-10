@@ -6,7 +6,7 @@ const Operacion = new Schema({
         type:Number,
         required: 'Es necesario el código de la mision'
     },
-    usuario: {
+    rescatista: {
         type: Number,
         required:'Es necesario el código de usuario'
     }

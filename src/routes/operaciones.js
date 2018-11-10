@@ -19,8 +19,8 @@ router.get('/mision/:codigo', middleware.ensureAuthenticated, async (req, res) =
         if (!operacion) return res.status(404).send({ mesagge: ' el operacion no existe' })
         var misiones= operacion.map(x => x.rescatista);
         console.log(misiones)
-        Rescatista.find( {codigo: { $in: misiones}}, (err, res) => {
-            res.json(res);
+        Rescatista.find( {codigo: { $in: misiones}}, (err, resc) => {
+            res.json(resc);
         });
     })
 });

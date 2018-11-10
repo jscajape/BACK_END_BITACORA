@@ -22,6 +22,9 @@ const Mision = new Schema({
     },
     observacionFinal: {
         type: String
+    },
+    estado: {
+        type: String
     }
 });
 

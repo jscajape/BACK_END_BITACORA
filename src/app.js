@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost/Bitacora', { useNewUrlParser: true })
 
 
 let http = require('http').Server(express);
-global.io = require('socket.io')(server);  
+global.io = require('socket.io')(http);  
 
 io.on('connection', (socket) => {
 

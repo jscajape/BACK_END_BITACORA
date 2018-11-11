@@ -7,7 +7,7 @@ const Registro = new Schema({
         required: 'Es necesario el código'
     },
     fecha: {
-        type: String
+        type: Date
     },
     mision:{
         type:Number,

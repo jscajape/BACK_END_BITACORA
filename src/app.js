@@ -7,11 +7,6 @@ busboyBodyParser = require('busboy-body-parser');
 
 
 const app = express();//Se crea una aplicación de Express
-/*
-mongoose.connect('mongodb://root:fQf6zgnDKvDD@localhost:27017/Bitacora')//Permite conectar a la base de datos local denominada Back_end
-    .then(db => console.log('BD está conectada'))
-    .catch(err => console.error(err));
-*/
 
 mongoose.connect('mongodb://localhost/Bitacora', { useNewUrlParser: true })
         .then(db => console.log('BD está conectada'))
@@ -19,6 +14,43 @@ mongoose.connect('mongodb://localhost/Bitacora', { useNewUrlParser: true })
 
 //------------------------------------------
 
+
+
+let http = require('http').Server(express);
+global.io = require('socket.io')(server);  
+
+io.on('connection', (socket) => {
+
+    socket.on('disconnect', function () {
+        console.log(socket.nickname)
+        io.emit('users-changed', { user: socket.nickname, event: 'left' });
+    });
+
+    socket.on('set-nickname', (nickname) => {
+        socket.nickname = nickname;
+        io.emit('users-changed', { user: nickname, event: 'joined' });
+    });
+
+    socket.on('add-message', (message) => {
+        io.emit('message', { text: message.text, from: socket.nickname, created: new Date() });
+    });
+
+    socket.on('message', (message) => {
+        io.emit('message', { text: message.text, from: socket.nickname, created: new Date() });
+    });
+
+
+
+
+    
+});
+
+var port = 3001;
+
+http.listen(port, function () {
+    console.log('listening in http://localhost:' + port);
+});
+//------------------------------------------
 app.set('port',  3000);//Se define el puerto port para la aplicación. Se usa el valor de process.env.PORT en el caso que haya sido configurado o en su defecto el puerto 3000
 
 //middlewares
@@ -53,3 +85,4 @@ app.use(express.static(__dirname + '/public'))
 app.listen(app.get('port'), () => {
     console.log('server on port 3000');//Imprime por consola el mensaje correspondiente
 });
+

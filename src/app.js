@@ -4,51 +4,20 @@ const mongoose = require('mongoose')//Permite incluir el módulo mongoose (model
 var service = require('./services');//Se declara la variable service que permite incluir el módulo services a fin de que pueda ser usado en el código 
 var middleware = require('./middleware');//Permite incluir el archivo donde se definió el middleware
 busboyBodyParser = require('busboy-body-parser');
-
-
 const app = express();//Se crea una aplicación de Express
-
-mongoose.connect('mongodb://localhost/Bitacora', { useNewUrlParser: true })
-        .then(db => console.log('BD está conectada'))
-        .catch(err => console.error(err));
-
-//------------------------------------------
-
-
-
 let http = require('http').Server(express);
 global.io = require('socket.io')(http);  
 
-io.on('connection', (socket) => {
 
-    socket.on('disconnect', function () {
-        console.log(socket.nickname)
-        io.emit('users-changed', { user: socket.nickname, event: 'left' });
-    });
+mongoose.connect('mongodb://localhost/Bitacora', { useNewUrlParser: true })
+        .then(db => console.log('MONGO BD Connected'))
+        .catch(err => console.error(err));
 
-    socket.on('set-nickname', (nickname) => {
-        socket.nickname = nickname;
-        io.emit('users-changed', { user: nickname, event: 'joined' });
-    });
-
-    socket.on('add-message', (message) => {
-        io.emit('message', { text: message.text, from: socket.nickname, created: new Date() });
-    });
-
-    socket.on('message', (message) => {
-        io.emit('message', { text: message.text, from: socket.nickname, created: new Date() });
-    });
-
-
-
-
-    
-});
 
 var port = 3001;
 
 http.listen(port, function () {
-    console.log('listening in http://localhost:' + port);
+    console.log('SOCKET listening in http://localhost:' + port);
 });
 //------------------------------------------
 app.set('port',  3000);//Se define el puerto port para la aplicación. Se usa el valor de process.env.PORT en el caso que haya sido configurado o en su defecto el puerto 3000
@@ -83,6 +52,6 @@ app.use(express.static(__dirname + '/public'))
 
 //La aplicación se encuentra escuchando las peticiones en el puerto port
 app.listen(app.get('port'), () => {
-    console.log('server on port 3000');//Imprime por consola el mensaje correspondiente
+    console.log('HTTP REST listening in http://localhost: 3000');//Imprime por consola el mensaje correspondiente
 });
 

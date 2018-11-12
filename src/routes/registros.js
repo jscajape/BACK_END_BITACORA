@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 var middleware = require('../middleware');
+const Rescatista = require('../models/rescatistaModel');
 
 const Registro = require('../models/registroModel');
 
+const events=['message','location','reporte']
 
 //-------------------------------
 
@@ -33,45 +35,62 @@ io.on('connection', (socket) => {
 
 
 
-    
+
 });
 
 
-router.get('/',middleware.ensureAuthenticated, async (req, res) =>{
+router.get('/', middleware.ensureAuthenticated, async (req, res) => {
     const registros = await Registro.find();
     res.json(registros);
 });
 
-router.get('/:codigo',middleware.ensureAuthenticated, async (req, res) =>{
+router.get('/:codigo', middleware.ensureAuthenticated, async (req, res) => {
     let codigo = req.params.codigo
-    await Registro.findOne( {codigo:codigo}, (err, registro) => {
-        if(err) return res.status(500).send({ message: 'error al realizar la petición'})
-        if(!registro) return res.status(404).send({ mesagge :' el registro no existe'})
+    await Registro.findOne({ codigo: codigo }, (err, registro) => {
+        if (err) return res.status(500).send({ message: 'error al realizar la petición' })
+        if (!registro) return res.status(404).send({ mesagge: ' el registro no existe' })
 
         res.json(registro)
     })
 });
 
-router.put('/',middleware.ensureAuthenticated, async (req, res) => {
-    
-    const registros = await Registro.find(); 
+router.put('/', middleware.ensureAuthenticated, async (req, res) => {
+
+    const registros = await Registro.find();
     var num = 0;
-    if(registros.length > 0)
-    {
-        if(registros[registros.length-1])
-             num = registros[registros.length-1].codigo
-    }
     const registro = new Registro(req.body);
-    registro.codigo=num+1
-    registro.fecha = new Date();
-    await registro.save();
-    res.json({
-        status: 'Registro Guardado'
-    });
+    if (registros.length > 0) {
+        if (registros[registros.length - 1])
+            num = registros[registros.length - 1].codigo
+    }
+    await Rescatista.findOne({ ci: req.body.rescatista }, (err, resc) => {
+        if (err)
+            return res.status(500).send({ message: 'error al encontrar rescatista ' })
+        if (!registro)
+            return res.status(404).send({ mesagge: ' el rescatista no existe' })
+
+        registro.rescatista = resc.codigo
+        registro.codigo = num + 1
+        registro.fecha = new Date();
+        registro.save((err2, r) => {
+            if (err2)
+                return res.status(500).send({ message: 'error al guardar registro' })
+            res.json({
+                status: 'Registro Guardado'
+            });
+
+            io.emit('registro_'+events[registro.tipo], registro);
+
+        });
+
+    })
+
+
 });
 
-router.post('/',middleware.ensureAuthenticated, async (req, res) => {
-    let registro = await Registro.findOne({codigo:req.body.codigo})
+
+router.post('/', middleware.ensureAuthenticated, async (req, res) => {
+    let registro = await Registro.findOne({ codigo: req.body.codigo })
     Object.assign(registro, req.body)
     await registro.save()
     res.json({
@@ -79,12 +98,12 @@ router.post('/',middleware.ensureAuthenticated, async (req, res) => {
     });
 });
 
-router.delete('/',middleware.ensureAuthenticated, async (req, res) => {
+router.delete('/', middleware.ensureAuthenticated, async (req, res) => {
     console.log(req.query);
-   await Registro.findByIdAndRemove(req.query);
-   res.json({
-    status:'Registro Eliminado'
-   });
+    await Registro.findByIdAndRemove(req.query);
+    res.json({
+        status: 'Registro Eliminado'
+    });
 });
 
 module.exports = router;

@@ -13,7 +13,7 @@ const Registro = new Schema({
         type:Number,
         required: 'Es necesario el código'
     },
-    usuario:{
+    rescatista:{
         type:Number,
         required: 'Es necesario el código'
     },

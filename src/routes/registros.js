@@ -75,12 +75,13 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
         registro.save((err2, r) => {
             if (err2)
                 return res.status(500).send({ message: 'error al guardar registro' })
-            res.json({
-                status: 'Registro Guardado'
-            });
+         
             
             console.log('registro_'+events[registro.tipo]) 
             io.emit('registro_'+events[registro.tipo], r);
+            res.json({
+                status: 'Registro Guardado'
+            });
 
         });
 

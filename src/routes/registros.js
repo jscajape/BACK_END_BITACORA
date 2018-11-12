@@ -78,8 +78,9 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
             res.json({
                 status: 'Registro Guardado'
             });
-
-            io.emit('registro_'+events[registro.tipo], registro);
+            
+            console.log('registro_'+events[registro.tipo]) 
+            io.emit('registro_'+events[registro.tipo], r);
 
         });
 

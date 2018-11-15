@@ -58,12 +58,12 @@ conn.once("open", () => {
             });
         });
     });
-    router.post('/upload/:mision/:usuario', (req, res) => {
+    router.post('/upload/:mision/:rescatista', (req, res) => {
         let part = req.files.file;
         let mision = req.params.mision
-        let usuario = req.params.usuario
+        let rescatista = req.params.rescatista
         let writeStream = gfs.createWriteStream({
-            filename: mision + '_' + usuario + '_' + part.name,
+            filename: mision + '_' + rescatista + '_' + part.name,
             mode: 'w',
             content_type: part.mimetype
         });
@@ -83,7 +83,7 @@ conn.once("open", () => {
             registro.codigo = num + 1
             registro.fecha = new Date();
             registro.mision = mision;
-            registro.usuario = usuario;
+            registro.rescatista = rescatista;
             registro.contenido = file;
             await registro.save();
 

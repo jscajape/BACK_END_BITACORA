@@ -59,6 +59,7 @@ conn.once("open", () => {
         });
     });
     router.post('/upload/:mision/:rescatista', (req, res) => {
+        console.log(req)
         let part = req.files.file;
         let mision = req.params.mision
         let rescatista = req.params.rescatista

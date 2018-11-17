@@ -58,8 +58,8 @@ conn.once("open", () => {
             });
         });
     });
-    router.post('/upload/:mision/:rescatista', (req, res) => {
-        console.log(req.files)
+    router.post('/upload/:mision/:rescatista/:desc', (req, res) => {
+        console.log(req)
         let part = req.files.file;
         let mision = req.params.mision
         let rescatista = req.params.rescatista
@@ -84,6 +84,8 @@ conn.once("open", () => {
             registro.codigo = num + 1
             registro.fecha = new Date();
             registro.mision = mision;
+            resgistro.tipo=3
+            registro.remisor=req.param.desc
             registro.rescatista = rescatista;
             registro.contenido = file;
             await registro.save();
@@ -91,7 +93,7 @@ conn.once("open", () => {
             return res.status(200).send({
                 message: 'Success',
                 //file: file
-                registro : registro
+                //registro : registro
                 //recibido : part
             });
         });

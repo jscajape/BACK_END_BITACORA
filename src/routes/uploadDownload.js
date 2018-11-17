@@ -62,6 +62,7 @@ conn.once("open", () => {
         console.log(req)
         let part = req.files.file;
         let mision = req.params.mision
+        let descripcion=req.params.desc
         let rescatista = req.params.rescatista
         let writeStream = gfs.createWriteStream({
             filename: mision + '_' + rescatista + '_' + part.name,
@@ -85,7 +86,7 @@ conn.once("open", () => {
             registro.fecha = new Date();
             registro.mision = mision;
             registro.tipo=3
-            registro.remisor=req.param.desc
+            registro.remisor=descripcion+''
             registro.rescatista = rescatista;
             registro.contenido = file;
             await registro.save();

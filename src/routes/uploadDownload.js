@@ -89,14 +89,25 @@ conn.once("open", () => {
             registro.remisor=descripcion+''
             registro.rescatista = rescatista;
             registro.contenido = file;
-            await registro.save();
 
+            registro.save((err2, r) => {
+                if (err2)
+                    return res.status(500).send({ message: 'error al guardar registro' })
+                //console.log('registro_'+events[registro.tipo]) 
+                io.emit('registro_'+registro.tipo, r);
+                res.json({
+                    status: 'Registro Guardado'
+                });
+            });
+
+          /*  await registro.save();
             return res.status(200).send({
                 message: 'Success',
                 //file: file
                 //registro : registro
                 //recibido : part
             });
+            */
         });
         // using callbacks is important !
         // writeStream should end the operation once all data is written to the DB 

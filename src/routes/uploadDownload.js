@@ -58,10 +58,11 @@ conn.once("open", () => {
             });
         });
     });
-    router.post('/upload/:mision/:rescatista', (req, res) => {
-        console.log(req.files)
+    router.post('/upload/:mision/:rescatista/:desc', (req, res) => {
+        console.log(req)
         let part = req.files.file;
         let mision = req.params.mision
+        let descripcion=req.params.desc
         let rescatista = req.params.rescatista
         let writeStream = gfs.createWriteStream({
             filename: mision + '_' + rescatista + '_' + part.name,
@@ -84,6 +85,8 @@ conn.once("open", () => {
             registro.codigo = num + 1
             registro.fecha = new Date();
             registro.mision = mision;
+            registro.tipo=3
+            registro.remisor=descripcion+''
             registro.rescatista = rescatista;
             registro.contenido = file;
             await registro.save();
@@ -91,7 +94,7 @@ conn.once("open", () => {
             return res.status(200).send({
                 message: 'Success',
                 //file: file
-                registro : registro
+                //registro : registro
                 //recibido : part
             });
         });

@@ -14,7 +14,7 @@ const Registro = new Schema({
         required: 'Es necesario el código'
     },
     rescatista:{
-        type:Number,
+        type: String ,
         required: 'Es necesario el código'
     },
     remisor:

@@ -16,6 +16,8 @@ const Registro = require('../models/registroModel');
     res.json(operaciones);
 });*/
 
+io.on('connection', (socket) => {
+})
 
 
 conn.once("open", () => {
@@ -93,8 +95,7 @@ conn.once("open", () => {
             registro.save((err2, r) => {
                 if (err2)
                     return res.status(500).send({ message: 'error al guardar registro' })
-                console.log('registro_'+[registro.tipo]) 
-                io.emit('registro_'+registro.tipo, r);
+                io.emit('registro_'+registro.tipo, registro);
                 res.json({
                     status: 'Registro Guardado'
                 });

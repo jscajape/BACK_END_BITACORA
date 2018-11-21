@@ -95,10 +95,11 @@ conn.once("open", () => {
             registro.save((err2, r) => {
                 if (err2)
                     return res.status(500).send({ message: 'error al guardar registro' })
-                io.emit('registro_'+registro.tipo, registro);
+                
                 res.json({
                     status: 'Registro Guardado'
                 });
+                io.emit('registro_'+registro.tipo, registro);
             });
 
           /*  await registro.save();

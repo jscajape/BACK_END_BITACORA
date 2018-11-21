@@ -45,7 +45,7 @@ router.get('/', middleware.ensureAuthenticated, async (req, res) => {
 });
 
 //obtener registros de una mision y determinado tipo
-router.get('/tipo/:mision/:tipo', middleware.ensureAuthenticated, async (req, res) => {
+router.get('/tipo/:mision/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
     let mision = req.params.mision
     let tipo = req.params.tipo
     

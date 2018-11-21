@@ -24,3 +24,5 @@ var EnviarEmail = function (correo,asunto,texto) {
         }
     });
 }
+
+module.exports = EnviarEmail

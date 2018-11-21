@@ -59,7 +59,7 @@ conn.once("open", () => {
         });
     });
     router.post('/upload/:mision/:rescatista/:desc', (req, res) => {
-        console.log(req)
+       // console.log(req)
         let part = req.files.file;
         let mision = req.params.mision
         let descripcion=req.params.desc
@@ -93,7 +93,7 @@ conn.once("open", () => {
             registro.save((err2, r) => {
                 if (err2)
                     return res.status(500).send({ message: 'error al guardar registro' })
-                //console.log('registro_'+events[registro.tipo]) 
+                console.log('registro_'+[registro.tipo]) 
                 io.emit('registro_'+registro.tipo, r);
                 res.json({
                     status: 'Registro Guardado'

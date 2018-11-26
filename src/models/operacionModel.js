@@ -7,8 +7,8 @@ const Operacion = new Schema({
         required: 'Es necesario el código de la mision'
     },
     rescatista: {
-        type: Number,
-        required:'Es necesario el código de usuario'
+        type: String,
+        required:'Es necesario CI de usuario'
     }
 });
 

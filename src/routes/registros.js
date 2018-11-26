@@ -64,7 +64,7 @@ router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
     let tipo = req.params.tipo
 
     let rte = []
-    const misiones=await Mision.find()/*((error,misiones)=>{
+    const misiones = await Mision.find()/*((error,misiones)=>{
         if(misiones)
             misi=misiones
     })*/
@@ -74,8 +74,7 @@ router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
         registros.forEach((x) => {
             let misTemp = misiones.find(y => y.codigo == x.mision)
             if (misTemp) {
-                let tmp = x
-                tmp['misionDict']= misTemp
+                let tmp = { log: x, mision: misTemp }
                 rte.push(tmp)
             }
         })

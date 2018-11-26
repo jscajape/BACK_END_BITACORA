@@ -63,9 +63,7 @@ router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
     let mision = req.params.mision
     let tipo = req.params.tipo
 
-    let registros = []
     let rte = []
-    let misi=[]
     const misiones=await Mision.find()/*((error,misiones)=>{
         if(misiones)
             misi=misiones
@@ -77,7 +75,7 @@ router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
             let misTemp = misiones.find(y => y.codigo == x.mision)
             if (misTemp) {
                 let tmp = x
-                tmp.mision = misTemp
+                tmp.mision_ = misTemp
                 rte.push(tmp)
             }
         })

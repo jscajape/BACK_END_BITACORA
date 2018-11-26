@@ -96,6 +96,20 @@ router.get('/rescatista/:mision/:rescatista', middleware.ensureAuthenticated, as
     })
 });
 
+//obtener registros de una mision y de determinado rescatista Y DETERMINADO TIPO
+router.get('/registrotipo/:mision/:rescatista/:tipo', middleware.ensureAuthenticated, async (req, res) => {
+    let mision = req.params.mision
+    let rescatista = req.params.rescatista
+    let tipo = req.params.tipo
+    registros = []
+    await Registro.find({ $and: [{ mision: mision }, { rescatista: rescatista },{ tipo: tipo }] }, (err, registros) => {
+        if (err) return res.status(500).send({ message: 'error al realizar la petición' })
+        if (!registros) return res.status(404).send({ mesagge: 'No se encontraron registros' })
+        res.json(registros)
+    })
+});
+
+
 router.get('/:codigo', middleware.ensureAuthenticated, async (req, res) => {
     let codigo = req.params.codigo
     await Registro.findOne({ codigo: codigo }, (err, registro) => {

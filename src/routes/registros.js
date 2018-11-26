@@ -74,8 +74,7 @@ router.get('/tipomision/:tipo/', middleware.ensureAuthenticated, async (req, res
         registros.forEach((x) => {
             let misTemp = misiones.find(y => y.codigo == x.mision)
             if (misTemp) {
-                let tmp = x
-                tmp["mision"]= misTemp
+                let tmp = {log:x,mision:misTemp}
                 rte.push(tmp)
             }
         })

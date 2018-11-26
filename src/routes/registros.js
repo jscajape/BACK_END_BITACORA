@@ -75,7 +75,7 @@ router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
             let misTemp = misiones.find(y => y.codigo == x.mision)
             if (misTemp) {
                 let tmp = x
-                tmp.mision_ = misTemp
+                tmp['misionDict']= misTemp
                 rte.push(tmp)
             }
         })

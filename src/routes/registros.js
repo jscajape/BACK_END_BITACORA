@@ -4,6 +4,7 @@ var middleware = require('../middleware');
 const Rescatista = require('../models/rescatistaModel');
 
 const Registro = require('../models/registroModel');
+const Mision = require('../models/misionModel');
 
 const events = ['message', 'location', 'reporte']
 
@@ -62,10 +63,18 @@ router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
     let tipo = req.params.tipo
 
     registros = []
+    rte=[]
     await Registro.find({ tipo: tipo }, (err, registros) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!registros) return res.status(404).send({ mesagge: 'No se encontraron registros' })
-        res.json(registros)
+        registros.forEach(x => {
+            await Mision.find({ codigo: x.mision }, (e, mision) => {
+                let tmp=x
+                tmp.mision=mision.descripcion
+                rte.push(tmp)
+            })
+        })
+        res.json(rte)
     })
 });
 

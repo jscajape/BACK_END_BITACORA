@@ -64,7 +64,7 @@ router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
 
     registros = []
     rte=[]
-    await Registro.find({ tipo: tipo }, (err, registros) => {
+     Registro.find({ tipo: tipo }, (err, registros) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!registros) return res.status(404).send({ mesagge: 'No se encontraron registros' })
         registros.forEach(x => {

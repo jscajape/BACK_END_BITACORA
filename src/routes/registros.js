@@ -58,19 +58,19 @@ router.get('/tipo/:mision/:tipo/', middleware.ensureAuthenticated, async (req, r
     })
 });
 
-router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
+router.get('/tipo/:tipo/', middleware.ensureAuthenticated, (req, res) => {
     let mision = req.params.mision
     let tipo = req.params.tipo
 
     registros = []
-    rte=[]
-     Registro.find({ tipo: tipo }, (err, registros) => {
+    rte = []
+    Registro.find({ tipo: tipo }, (err, registros) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!registros) return res.status(404).send({ mesagge: 'No se encontraron registros' })
-        await registros.forEach(x => {
-             Mision.find({ codigo: x.mision }, (e, mision) => {
-                let tmp=x
-                tmp.mision=mision.descripcion
+        registros.forEach(x => {
+            Mision.find({ codigo: x.mision }, (e, mision) => {
+                let tmp = x
+                tmp.mision = mision.descripcion
                 rte.push(tmp)
             })
         })

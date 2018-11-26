@@ -75,11 +75,9 @@ router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
         if (!registros) return res.status(404).send({ mesagge: 'No se encontraron registros' })
         registros.forEach((x) => {
             let misTemp = misiones.find(y => y.codigo == x.mision)
-            console.log(misTemp)
-
             if (misTemp) {
                 let tmp = x
-                tmp.mision = mision.descripcion
+                tmp.mision = mision.misTemp
                 rte.push(tmp)
             }
         })

@@ -59,31 +59,6 @@ router.get('/tipo/:mision/:tipo/', middleware.ensureAuthenticated, async (req, r
 });
 
 
-router.get('/:usuario/:fechaInicial/:fechaFinal', middleware.ensureAuthenticated, async (req, res) => {//Se define una nueva ruta para el método GET usando el parámetro usuario,
-    //fecha inicial y final
-    let usuario = req.params.usuario
-    let fechaini = new Date(req.params.fechaInicial).toISOString();
-    let fechafin = new Date(req.params.fechaFinal).toISOString();
-    lecturasAEnviar = [];
-    const equiposPorUsuario = await Equipo.find({ usuario: usuario });//Realiza la búsqueda de usuario en Equipo
-    await Lectura.find({ "hora": { "$gte": fechaini, "$lt": fechafin } }, (err, lectura) => {//Realiza la búsqueda en el campo hora de Lectura de acuerdo a fecha inicial
-        //y final
-        if (err) return res.status(500).send({ message: 'error al realizar la petición' })
-        if (!lectura) return res.status(404).send({ mesagge: ' las lecturas no exiten' })
-        //console.log(lectura);
-        lectura.forEach(function (itemLect) {
-            equiposPorUsuario.forEach(function (item) {
-                if (itemLect.sensor == item.codigo) {//Si el campo equipo de Lectura es igual al campo código de Equipo 
-                    lecturasAEnviar.push(itemLect);//Se almacenas las lecturas en el array lecturasAEnviar
-                }
-            });
-        });
-        res.json(lecturasAEnviar)//Se envía en la respuesta el array lecturasAEnviar en formato JSON
-
-    });
-});
-
-
 router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
     let mision = req.params.mision
     let tipo = req.params.tipo

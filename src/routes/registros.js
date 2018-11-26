@@ -59,7 +59,7 @@ router.get('/tipo/:mision/:tipo/', middleware.ensureAuthenticated, async (req, r
 });
 
 
-router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
+router.get('/tipomision/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
     let mision = req.params.mision
     let tipo = req.params.tipo
 

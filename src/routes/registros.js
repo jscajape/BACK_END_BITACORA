@@ -5,7 +5,7 @@ const Rescatista = require('../models/rescatistaModel');
 
 const Registro = require('../models/registroModel');
 
-const events=['message','location','reporte']
+const events = ['message', 'location', 'reporte']
 
 //-------------------------------
 
@@ -48,22 +48,35 @@ router.get('/', middleware.ensureAuthenticated, async (req, res) => {
 router.get('/tipo/:mision/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
     let mision = req.params.mision
     let tipo = req.params.tipo
-    
+
     registros = []
-    await Registro.find({$and:[{ mision: mision},{ tipo: tipo}] }, (err, registros) => {
+    await Registro.find({ $and: [{ mision: mision }, { tipo: tipo }] }, (err, registros) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!registros) return res.status(404).send({ mesagge: 'No se encontraron registros' })
         res.json(registros)
     })
 });
 
+router.get('/tipo/:tipo/', middleware.ensureAuthenticated, async (req, res) => {
+    let mision = req.params.mision
+    let tipo = req.params.tipo
+
+    registros = []
+    await Registro.find({ tipo: tipo }, (err, registros) => {
+        if (err) return res.status(500).send({ message: 'error al realizar la petición' })
+        if (!registros) return res.status(404).send({ mesagge: 'No se encontraron registros' })
+        res.json(registros)
+    })
+});
+
+
 //obtener registros de una mision y de determinado rescatista
 router.get('/rescatista/:mision/:rescatista', middleware.ensureAuthenticated, async (req, res) => {
     let mision = req.params.mision
     let rescatista = req.params.rescatista
-    
+
     registros = []
-    await Registro.find({$and:[{ mision: mision},{ rescatista: rescatista}] }, (err, registros) => {
+    await Registro.find({ $and: [{ mision: mision }, { rescatista: rescatista }] }, (err, registros) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!registros) return res.status(404).send({ mesagge: 'No se encontraron registros' })
         res.json(registros)
@@ -96,13 +109,13 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
             return res.status(404).send({ mesagge: ' el rescatista no existe' })
 
         registro.rescatista = resc.codigo
-        registro.remisor= resc.nombres+ ' ' +resc.apellidos
+        registro.remisor = resc.nombres + ' ' + resc.apellidos
         registro.codigo = num + 1
         registro.fecha = new Date();
         registro.save((err2, r) => {
             if (err2)
                 return res.status(500).send({ message: 'error al guardar registro' })
-            io.emit('registro_'+registro.tipo, r);
+            io.emit('registro_' + registro.tipo, r);
             res.json({
                 status: 'Registro Guardado'
             });

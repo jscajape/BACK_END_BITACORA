@@ -52,6 +52,6 @@ app.use(express.static(__dirname + '/public'))
 
 //La aplicación se encuentra escuchando las peticiones en el puerto port
 app.listen(app.get('port'), () => {
-    console.log('HTTP REST listening in http://localhost: 3000');//Imprime por consola el mensaje correspondiente
+    console.log('HTTP REST listening in http://localhost:3000');//Imprime por consola el mensaje correspondiente
 });
 

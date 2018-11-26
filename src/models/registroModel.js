@@ -23,7 +23,7 @@ const Registro = new Schema({
     },
     tipo:
     {
-        type:Number //1: chat Interno, 2: geo, 3: reporte hacia pmando
+        type:Number //1: chat Interno, 2: geo, 3: reporte hacia pmando,4 boton de panico, 5 triaje4444, -1 descartado
     },
     contenido: {
         type: Object

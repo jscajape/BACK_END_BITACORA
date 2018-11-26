@@ -150,9 +150,9 @@ router.post('/', middleware.ensureAuthenticated, async (req, res) => {
     });
 });
 
-router.delete('/', middleware.ensureAuthenticated, async (req, res) => {
-    console.log(req.query);
-    await Registro.findByIdAndRemove(req.query);
+router.delete('/:id', middleware.ensureAuthenticated, async (req, res) => {
+    let id = req.params.id
+    await Registro.findByIdAndRemove(id);
     res.json({
         status: 'Registro Eliminado'
     });

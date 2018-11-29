@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 var middleware = require('../middleware');
-
+var Mail=require("../models/mail")
 const Mision = require('../models/misionModel');
-
+var objMail=new Mail()
 router.get('/',middleware.ensureAuthenticated, async (req, res) =>{
     const misiones = await Mision.find();
-    EnviarEmail('yop_dm@hotmail.com','Prueba','Este es un mensaje de prueba')
+    objMail.EnviarEmail('yop_dm@hotmail.com','Prueba','Este es un mensaje de prueba')
     res.json(misiones);
 });
 

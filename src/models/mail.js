@@ -1,6 +1,8 @@
 var nodemailer = require('nodemailer');//Permite incluir el módulo nodemailer en el código para que sea posible el envío de correos electrónicos
 
-global.EnviarEmail = function (correo,asunto,texto) {
+var Mail = function() { };
+
+Mail.prototype.EnviarEmail = function (correo,asunto,texto) {
     var transporter = nodemailer.createTransport({//Se crea el servicio de transporte necesario para poder enviar correos electrónicos
         service: 'gmail',//Se especifica el uso de gmail
         auth: {//Se define el objeto de autenticación especificando la cuenta y contraseña de gmail
@@ -25,4 +27,4 @@ global.EnviarEmail = function (correo,asunto,texto) {
     });
 }
 
-module.exports = EnviarEmail
+module.exports = Mail;

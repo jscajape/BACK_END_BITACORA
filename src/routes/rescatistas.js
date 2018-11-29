@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 var middleware = require('../middleware');
+var Mail=require("../models/mail")
 
 const Rescatista = require('../models/rescatistaModel');
+
+var objMail=new Mail()
 
 router.get('/',middleware.ensureAuthenticated, async (req, res) =>{
     const rescatistas = await Rescatista.find();
@@ -42,6 +45,8 @@ router.put('/',middleware.ensureAuthenticated, async (req, res) => {
     rescatista.codigo=num+1
 
     await rescatista.save();
+
+
     res.json({
         status: 'Rescatista Guardado'
     });

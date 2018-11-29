@@ -7,6 +7,10 @@ const Usuario = require('../models/usuarioModel');
 const Rescatista = require('../models/rescatistaModel');
 const Mision = require('../models/misionModel');
 
+var Mail=require("../models/mail")
+var objMail=new Mail()
+
+
 router.get('/', middleware.ensureAuthenticated, async (req, res) => {
     const operaciones = await Operacion.find();
     res.json(operaciones);
@@ -49,6 +53,9 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
     const operacion = new Operacion(req.body);
     operacion.codigo = num + 1
     operacion.save(() => {
+        objMail.EnviarEmail(rescatista.email,'Sistema de Mando y Control Misiones de Rescate',
+        'Estimad@ ha sido asignado a la mision No. '+operacion.mision+'\nPara mayor información ingrese a la app.')
+    
         res.json({
             status: 'Operacion Guardada'
         });

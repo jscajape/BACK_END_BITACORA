@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 var middleware = require('../middleware');
+var Mail=require("../models/mail")
 
 const Usuario = require('../models/usuarioModel');
 const Rescatista = require('../models/rescatistaModel');
+
+var objMail=new Mail()
 
 router.get('/',middleware.ensureAuthenticated, async (req, res) =>{
     const usuarios = await Usuario.find();
@@ -56,6 +59,8 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
     usuario.codigo=num+1
 
     await usuario.save();
+    objMail.EnviarEmail(rescatista.email,'Sistema de Mando y Control Misiones de Rescate',
+    'Estimad@ a sido ingresado, con el usuario: '+usuario.nombreUsuario+'\n.Para obtener la apliacion movil: https://drive.google.com/file/d/1zJWfwHJK7wxCgXpr3HCD7HkRocsvEK9p/view?usp=sharing')
     res.json(usuario);
 });
 

@@ -59,7 +59,7 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
     usuario.codigo=num+1
 
     await usuario.save();
-    objMail.EnviarEmail(rescatista.email,'Sistema de Mando y Control Misiones de Rescate',
+    objMail.EnviarEmail(usuario.email,'Sistema de Mando y Control Misiones de Rescate',
     'Estimad@ a sido ingresado, con el usuario: '+usuario.nombreUsuario+'\n.Para obtener la apliacion movil: https://drive.google.com/file/d/1zJWfwHJK7wxCgXpr3HCD7HkRocsvEK9p/view?usp=sharing')
     res.json(usuario);
 });

@@ -18,7 +18,7 @@ const Usuario = new Schema({
         type: String,
         required:'Es necesario un password'
     },
-    correo: {//Se especifica el atributo correo que será una cadena y deberá corresponder con el formato para una dirección de correo electrónico valida
+    email: {//Se especifica el atributo correo que será una cadena y deberá corresponder con el formato para una dirección de correo electrónico valida
         type: String,
         match: /.+\@.+\..+/
     },

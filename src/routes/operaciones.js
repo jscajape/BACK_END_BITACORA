@@ -56,7 +56,7 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
         Rescatista.find({ ci: operacion.rescatista }, (err, resc) => {
             objMail.EnviarEmail(resc.email, 'Sistema de Mando y Control Misiones de Rescate',
                 'Estimad@ ha sido asignado a la mision No. ' + operacion.mision + '\nPara mayor información ingrese a la app.')
-
+            console.log(resc)
             res.json({
                 status: 'Operacion Guardada'
             });

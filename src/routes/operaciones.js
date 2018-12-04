@@ -53,10 +53,10 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
     const operacion = new Operacion(req.body);
     operacion.codigo = num + 1
     operacion.save(() => {
-        Rescatista.find({ ci: operacion.rescatista }, (err, resc) => {
+        //69556565
+        Rescatista.findOne({ ci: operacion.rescatista }, (err, resc) => {
             objMail.EnviarEmail(resc.email, 'Sistema de Mando y Control Misiones de Rescate',
                 'Estimad@ ha sido asignado a la mision No. ' + operacion.mision + '\nPara mayor información ingrese a la app.')
-            console.log(resc)
             res.json({
                 status: 'Operacion Guardada'
             });

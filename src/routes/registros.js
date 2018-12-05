@@ -136,7 +136,7 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
             return res.status(404).send({ mesagge: ' el rescatista no existe' })
 
         registro.rescatista = resc.codigo
-        if(registro.remisor)
+        if(!registro.remisor)
             registro.remisor = resc.nombres + ' ' + resc.apellidos
 
         registro.codigo = num + 1

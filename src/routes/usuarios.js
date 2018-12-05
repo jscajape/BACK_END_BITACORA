@@ -60,7 +60,7 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
 
     await usuario.save();
     objMail.EnviarEmail(usuario.email,'Sistema de Mando y Control Misiones de Rescate',
-    'Estimad@ a sido ingresado, con el usuario: '+usuario.nombreUsuario+'\n.Para obtener la apliacion movil: https://drive.google.com/uc?authuser=0&id=1O3W9B2z8VwlVb4ArakJKiFqz1W8HQ2f8&export=download')
+    'Estimad@ a sido ingresado, con el usuario: '+usuario.nombreUsuario+'\n.Para obtener la apliacion movil: https://drive.google.com/drive/u/0/my-drive?ogsrc=32')
     res.json(usuario);
 });
 

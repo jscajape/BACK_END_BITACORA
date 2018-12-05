@@ -64,7 +64,7 @@ router.get('/tipomision/:tipo/', middleware.ensureAuthenticated, async (req, res
     let tipo = req.params.tipo
 
     let rte = []
-    const misiones=await Mision.find()/*((error,misiones)=>{
+    const misiones = await Mision.find()/*((error,misiones)=>{
         if(misiones)
             misi=misiones
     })*/
@@ -74,7 +74,7 @@ router.get('/tipomision/:tipo/', middleware.ensureAuthenticated, async (req, res
         registros.forEach((x) => {
             let misTemp = misiones.find(y => y.codigo == x.mision)
             if (misTemp) {
-                let tmp = {log:x,mision:misTemp}
+                let tmp = { log: x, mision: misTemp }
                 rte.push(tmp)
             }
         })
@@ -102,7 +102,7 @@ router.get('/registrotipo/:mision/:rescatista/:tipo', middleware.ensureAuthentic
     let rescatista = req.params.rescatista
     let tipo = req.params.tipo
     registros = []
-    await Registro.find({ $and: [{ mision: mision }, { rescatista: rescatista },{ tipo: tipo }] }, (err, registros) => {
+    await Registro.find({ $and: [{ mision: mision }, { rescatista: rescatista }, { tipo: tipo }] }, (err, registros) => {
         if (err) return res.status(500).send({ message: 'error al realizar la petición' })
         if (!registros) return res.status(404).send({ mesagge: 'No se encontraron registros' })
         res.json(registros)
@@ -134,10 +134,11 @@ router.put('/', middleware.ensureAuthenticated, async (req, res) => {
             return res.status(500).send({ message: 'error al encontrar rescatista ' })
         if (!registro)
             return res.status(404).send({ mesagge: ' el rescatista no existe' })
-
-        registro.rescatista = resc.codigo
-        if(!registro.remisor)
+        if (resc) {
             registro.remisor = resc.nombres + ' ' + resc.apellidos
+            registro.rescatista = resc.codigo
+
+        }
 
         registro.codigo = num + 1
         registro.fecha = new Date();
